@@ -2,6 +2,53 @@
 
 using namespace std;
 
+
+class Expense{
+
+
+    private:
+    int id;
+    string title;
+    string category;
+    double amount;
+    string date;
+
+    public:
+     void input()
+    {
+        cout << "Enter ID: ";
+        cin >> id;
+
+        cin.ignore();
+
+        cout << "Enter Title: ";
+        getline(cin, title);
+
+        cout << "Enter Category: ";
+        getline(cin, category);
+
+        cout << "Enter Amount: ";
+        cin >> amount;
+
+        cin.ignore();
+
+        cout << "Enter Date: ";
+        getline(cin, date);
+    };
+
+    void display(){
+
+         cout << "\n----- Expense Details -----\n";
+        cout << "ID: " << id << endl;
+        cout << "Title: " << title << endl;
+        cout << "Category: " << category << endl;
+        cout << "Amount: " << amount << endl;
+        cout << "Date: " << date << endl;
+    };
+
+};
+
+
 void displayMenu()
 {
 
@@ -24,6 +71,11 @@ void displayMenu()
 
 int main()
 {
+
+    Expense Expense1;
+    Expense1.input();
+    Expense1.display();
+
 
     int choice;
 
