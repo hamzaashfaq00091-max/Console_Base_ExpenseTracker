@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
@@ -14,6 +15,11 @@ class Expense{
     string date;
 
     public:
+
+
+     Expense() : id(0), title(""), category(""), amount(0.0), date("") {};
+      Expense(int i, string t, string c, double a, string d) 
+        : id(i), title(t), category(c), amount(a), date(d) {}
      void input()
     {
         cout << "Enter ID: ";
@@ -45,8 +51,40 @@ class Expense{
         cout << "Amount: " << amount << endl;
         cout << "Date: " << date << endl;
     };
+        int getId() { return id; }
+    string getTitle() { return title; }
+    string getCategory() { return category; }
+    double getAmount() { return amount; }
+    string getDate() { return date; }
 
 };
+
+    vector<Expense> expenses;
+
+
+    void addExpense(){
+
+        Expense expense;
+        cout<<"Add new Expense\n";
+        expense.input();
+        expenses.push_back(expense);
+        cout<<"Expenses Added Successfully";
+    };
+
+    void viewExpenses(){
+
+        if(expenses.empty()){
+            cout<<"Expenses Empty, Add the Expenses";
+             return;
+        };
+       
+
+        cout<<"All Expenses";
+        for(int i=0;i<expenses.size();i++){
+            expenses[i].display();
+        }
+    };
+
 
 
 void displayMenu()
@@ -67,14 +105,16 @@ void displayMenu()
     cout << "9. Save Data\n";
     cout << "10. Load Data\n";
     cout << "0. Exit\n\n";
-}
+};
+
+  // Getter methods for accessing private data
+
 
 int main()
 {
 
-    Expense Expense1;
-    Expense1.input();
-    Expense1.display();
+   
+
 
 
     int choice;
@@ -93,11 +133,11 @@ int main()
         {
 
         case 1:
-            cout << "Add Expense Selected\n";
+           addExpense();
             break;
 
         case 2:
-            cout << "View Expenses Selected\n";
+            viewExpenses();
             break;
 
         case 3:
