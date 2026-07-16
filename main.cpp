@@ -55,6 +55,12 @@ public:
     string getCategory() { return category; }
     double getAmount() { return amount; }
     string getDate() { return date; }
+    // Setter methods for update
+    void setId(int newId) { id = newId; }
+    void setTitle(string newTitle) { title = newTitle; }
+    void setCategory(string newCategory) { category = newCategory; }
+    void setAmount(double newAmount) { amount = newAmount; }
+    void setDate(string newDate) { date = newDate; }
 };
 
 vector<Expense> expenses;
@@ -131,7 +137,7 @@ void SearchExpense()
 
     switch (searchChoice)
     {
-case 1:
+    case 1:
     {
         // Search by ID
         int id;
@@ -150,7 +156,7 @@ case 1:
         }
         break;
     }
-    
+
     case 2:
     {
         // Search by Title
@@ -210,11 +216,185 @@ case 1:
         return;
     }
 
-        if (!found)
+    if (!found)
+    {
+        cout << "\nNo matching expenses found!\n";
+    }
+}
+
+void deleteExpense()
+{
+
+    if (expenses.empty())
+    {
+        cout << "\nNo expenses to delete! Please add expenses first.\n";
+        return;
+    }
+
+    cout << "Delete Expense";
+
+    for (int i = 0; i < expenses.size(); i++)
+    {
+        cout << "ID" << expenses[i].getId()
+             << "Title" << expenses[i].getTitle()
+             << "Amount $" << expenses[i].getAmount() << endl;
+    }
+
+    int id;
+    cout << "Enter ID to Delete";
+    cin >> id;
+
+    for (int i = 0; i < expenses.size(); i++)
+    {
+        if (expenses[i].getId() == id)
         {
-            cout << "\nNo matching expenses found!\n";
+            // Show the expense to be deleted
+            cout << "\n--- Expense to Delete ---";
+            expenses[i].display();
+
+            // Confirm deletion
+            char confirm;
+            cout << "\nAre you sure you want to delete this expense? (y/n): ";
+            cin >> confirm;
+
+            if (confirm == 'y' || confirm == 'Y')
+            {
+                expenses.erase(expenses.begin() + i);
+                cout << "\n✓ Expense with ID " << id << " deleted successfully!\n";
+                cout << "Remaining expenses: " << expenses.size() << endl;
+            }
+            else
+            {
+                cout << "\nDeletion cancelled.\n";
+            }
+            return;
         }
     }
+    cout << "\nExpense with ID " << id << " not found!\n";
+}
+
+
+void updateExpense() {
+    if (expenses.empty()) {
+        cout << "\nNo expenses to update! Please add expenses first.\n";
+        return;
+    }
+    
+    cout << "\n--- Update Expense ---\n";
+    
+    // Show all expenses with their IDs for reference
+    cout << "\nCurrent Expenses:\n";
+    for (int i = 0; i < expenses.size(); i++) {
+        cout << "ID: " << expenses[i].getId() 
+             << " | Title: " << expenses[i].getTitle() 
+             << " | Amount: $" << expenses[i].getAmount() << endl;
+    }
+    
+    int id;
+    cout << "\nEnter Expense ID to update: ";
+    cin >> id;
+    
+    for (int i = 0; i < expenses.size(); i++) {
+        if (expenses[i].getId() == id) {
+            // Show current expense
+            cout << "\n--- Current Expense Details ---";
+            expenses[i].display();
+            
+            cout << "\n--- Update Options ---\n";
+            cout << "1. Update All Fields\n";
+            cout << "2. Update Title Only\n";
+            cout << "3. Update Category Only\n";
+            cout << "4. Update Amount Only\n";
+            cout << "5. Update Date Only\n";
+            cout << "6. Cancel Update\n";
+            cout << "Enter your choice: ";
+            
+            int updateChoice;
+            cin >> updateChoice;
+            cin.ignore();
+            
+            switch (updateChoice) {
+                case 1: {
+                    // Update all fields
+                    cout << "\n--- Enter New Details ---\n";
+                    int newId;
+                    string newTitle, newCategory, newDate;
+                    double newAmount;
+                    
+                    cout << "Enter New ID: ";
+                    cin >> newId;
+                    cin.ignore();
+                    cout << "Enter New Title: ";
+                    getline(cin, newTitle);
+                    cout << "Enter New Category: ";
+                    getline(cin, newCategory);
+                    cout << "Enter New Amount: ";
+                    cin >> newAmount;
+                    cin.ignore();
+                    cout << "Enter New Date: ";
+                    getline(cin, newDate);
+                    
+                    expenses[i].setId(newId);
+                    expenses[i].setTitle(newTitle);
+                    expenses[i].setCategory(newCategory);
+                    expenses[i].setAmount(newAmount);
+                    expenses[i].setDate(newDate);
+                    
+                    cout << "\n✓ Expense updated successfully!\n";
+                    break;
+                }
+                case 2: {
+                    // Update title only
+                    string newTitle;
+                    cout << "Enter New Title: ";
+                    getline(cin, newTitle);
+                    expenses[i].setTitle(newTitle);
+                    cout << "\n✓ Title updated successfully!\n";
+                    break;
+                }
+                case 3: {
+                    // Update category only
+                    string newCategory;
+                    cout << "Enter New Category: ";
+                    getline(cin, newCategory);
+                    expenses[i].setCategory(newCategory);
+                    cout << "\n✓ Category updated successfully!\n";
+                    break;
+                }
+                case 4: {
+                    // Update amount only
+                    double newAmount;
+                    cout << "Enter New Amount: ";
+                    cin >> newAmount;
+                    expenses[i].setAmount(newAmount);
+                    cout << "\n✓ Amount updated successfully!\n";
+                    break;
+                }
+                case 5: {
+                    // Update date only
+                    string newDate;
+                    cout << "Enter New Date: ";
+                    getline(cin, newDate);
+                    expenses[i].setDate(newDate);
+                    cout << "\n✓ Date updated successfully!\n";
+                    break;
+                }
+                case 6: {
+                    cout << "\nUpdate cancelled.\n";
+                    break;
+                }
+                default:
+                    cout << "Invalid choice!\n";
+            }
+            
+            // Show updated expense
+            cout << "\n--- Updated Expense Details ---";
+            expenses[i].display();
+            return;
+        }
+    }
+    cout << "\nExpense with ID " << id << " not found!\n";
+}
 
 
 int main()
